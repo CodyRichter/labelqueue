@@ -1,0 +1,25 @@
+[Unit]
+Description=Label print server
+After=network-online.target bluetooth.service
+Wants=network-online.target bluetooth.service
+
+[Service]
+User=labelqueue
+Group=labelqueue
+SupplementaryGroups=bluetooth
+EnvironmentFile=/etc/labelqueue/labelqueue.env
+Environment=LABELQUEUE_DATA=/var/lib/labelqueue
+WorkingDirectory=/opt/labelqueue
+ExecStart=/usr/bin/python3 -m uvicorn --factory labelqueue.main:create_app --host 0.0.0.0 --port 8000 --no-access-log
+Restart=on-failure
+RestartSec=5
+StateDirectory=labelqueue
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+# AF_BLUETOOTH for RFCOMM, AF_UNIX for BlueZ over D-Bus (BLE)
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_BLUETOOTH
+
+[Install]
+WantedBy=multi-user.target

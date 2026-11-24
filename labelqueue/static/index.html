@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labels</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='7' width='24' height='18' rx='3' fill='%23f2b33d'/><rect x='9' y='12' width='14' height='2.5' rx='1' fill='%23222'/><rect x='9' y='17' width='9' height='2.5' rx='1' fill='%23222'/></svg>">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header>
+  <h1>Labels</h1>
+  <span id="status" class="chip" title="Printer status">…</span>
+</header>
+
+<main>
+  <section class="editor">
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="text" aria-selected="true">Text</button>
+      <button role="tab" data-tab="image" aria-selected="false">Image</button>
+      <button role="tab" data-tab="binsight" aria-selected="false" hidden>Binsight</button>
+    </nav>
+
+    <form id="form-text" class="panel" data-panel="text">
+      <label>Lines <small>first line is the title</small>
+        <textarea name="lines" rows="4" placeholder="Leftovers&#10;Chicken curry&#10;Nov 22"></textarea>
+      </label>
+      <label>QR code <small>optional: a URL or any text</small>
+        <input name="qr" type="text" placeholder="https://…" autocomplete="off">
+      </label>
+    </form>
+
+    <form id="form-image" class="panel" data-panel="image" hidden>
+      <label class="drop" id="drop">
+        <input name="file" type="file" accept="image/*">
+        <span id="drop-text">Drop an image here, or click to choose</span>
+      </label>
+      <div class="row">
+        <label>Fit
+          <select name="fit"><option value="contain">Contain</option><option value="cover">Fill (crop)</option><option value="stretch">Stretch</option></select>
+        </label>
+        <label>Rotate
+          <select name="rotate"><option value="auto">Auto</option><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select>
+        </label>
+        <label class="check"><input name="dither" type="checkbox"> Dither <small>for photos</small></label>
+      </div>
+    </form>
+
+    <form id="form-binsight" class="panel" data-panel="binsight" hidden>
+      <label>Location code
+        <input name="code" type="text" placeholder="183-JHL" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      </label>
+      <p class="hint">Prints the same QR label Binsight shows for that bin, box or shelf.</p>
+    </form>
+
+    <div class="row controls">
+      <label>Label
+        <select id="size"></select>
+      </label>
+      <label>Copies
+        <input id="copies" type="number" min="1" max="50" value="1">
+      </label>
+      <button id="print" class="primary" type="button" disabled>Print</button>
+    </div>
+    <p id="message" class="message" role="status"></p>
+  </section>
+
+  <section class="preview">
+    <div class="stock"><img id="preview" alt="Label preview"><p id="preview-empty">Preview appears here</p></div>
+    <p id="dims" class="hint"></p>
+  </section>
+</main>
+
+<section class="history">
+  <h2>Recent</h2>
+  <ul id="jobs"></ul>
+</section>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
